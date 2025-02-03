@@ -213,5 +213,5 @@ if config["parser"] == "table":
                 lines = [json.loads(line) for line in parsed_lines]
                     # site = 
                 normalized_site = normalize(config, lines, parsed_at_timestamp)
-                json.dump(normalized_site.dict(), fout, default=json_serial)
+                json.dump(normalized_site.dict(exclude_unset=True), fout, default=json_serial)
                 fout.write("\n")
