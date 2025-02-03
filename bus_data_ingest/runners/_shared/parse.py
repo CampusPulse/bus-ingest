@@ -125,16 +125,29 @@ def _output_ndjson(json_list: List[dict], out_filepath: pathlib.Path, dump_cls=N
 #         return ""
 #     return content.strip() if isinstance(content, str) else content.get_text().strip()
 
-
-def _get_stop_id(name: str, mapping) -> str:
-    name_first_two = " ".join(name.split(" ")[0:2])
-    if mapping.get(name):
-        return mapping[name]
-    elif name_first_two in mapping:# gleason circle hotfix
-        return mapping[name_first_two]
+def _process_stop_name(name: str) -> str:
+    if name.startswith("Gleason Circle"):
+        return "Gleason Circle"
     else:
         return name
 
+def _get_stop_id(name: str, mapping) -> str:
+    name = _process_stop_name(name)
+    if mapping.get(name):
+        return mapping[name]
+    else:
+        return name
+
+
+def _dedup_dicts(input_dicts, key) -> dict:
+    """ deduplicate a dict using its value at the given key"""
+    output_dict = []
+    seen = set()
+    for k in input_dicts:
+        if k[key] not in seen:
+            seen.add(k[key])
+            output_dict.append(k)
+    return output_dict
 
 config = _get_config(YML_CONFIG)
 # EXTRACT_CLINIC_ID = re.compile(r".*clinic(\d*)\.png")
@@ -165,25 +178,40 @@ if config["parser"] == "table":
             continue
         
         headers = [th.get_text(strip=True) for th in table.find_all('th')]
-        scheduledata = []
+        # run through get_stop_id and dedup to condense gleason circle stuff
+        # headers = [_process_stop_name(k) for k in headers]
+        # # remove duplicates in the headers, preserving order
+        # headers = list(dict.fromkeys(headers))
+        
+        scheduledata = {}
         
         for row in table.find_all('tr')[1:]:  # Skip header row
             cells = row.find_all('td')
             for i, cell in enumerate(cells):
-                if i < len(headers):  # Ensure we don't go out of bounds
-                    scheduledata.append({
-                        "stop": headers[i],
-                        "stop_id": _get_stop_id(headers[i], stop_id_map),
-                        "time": datetime.strptime(cell.get_text(strip=True), "%I:%M %p").strftime("%H:%M")
-                    })
-        
-        scheduledata.sort(key=lambda x: x['time'])  # Sort by time        
+                if i < len(headers):
+                    name = headers[i]
+                    if name not in scheduledata:
+                        scheduledata[name] = []
+                    
+                    scheduledata[name].append(datetime.strptime(cell.get_text(strip=True), "%I:%M %p").strftime("%H:%M"))
+
+        # turn each key of scheduledata into a dict
+        data = []
+        for name, times in scheduledata.items():
+            data.append({
+                "stop": _process_stop_name(name),
+                "stop_id": _get_stop_id(name, stop_id_map),
+                "times": times
+            })
+
+        # deduplicate by stop_id where the values contain lists
+        data = _dedup_dicts(data, "stop_id")
 
         out_filepath = _get_out_filepath(schedule, OUTPUT_DIR)
 
         _log_activity(config["state"], config["site"], schedule, out_filepath)
 
-        _output_ndjson(scheduledata, out_filepath)
+        _output_ndjson(data, out_filepath)
 
 elif config["parser"] == "passthrough":
     """
