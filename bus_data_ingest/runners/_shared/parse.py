@@ -127,45 +127,41 @@ def _output_ndjson(json_list: List[dict], out_filepath: pathlib.Path, dump_cls=N
 config = _get_config(YML_CONFIG)
 # EXTRACT_CLINIC_ID = re.compile(r".*clinic(\d*)\.png")
 
-if config["parser"] == "ics":
+if config["parser"] == "table":
     """
-    parse ICS formatted data
+    parse schedule table into json data
     """
 
-    for ics in INPUT_DIR.glob("**/*.ics"):
-        if not ics.is_file():
+    for schedule in INPUT_DIR.glob("**/*.html"):
+        if not schedule.is_file():
+            continue
+
+        soup = soupify_file(schedule)
+        table = soup.find('table')
+
+        if not table:
+            print(f"No table found in {schedule}")
             continue
         
-
-        filedata = ics.read_text()
-
-        class ICalendarEncoder(JSONEncoder):
-            def default(self, obj, markers=None):
-                try:
-                    if obj.__module__.startswith("icalendar.prop"):
-                        return (obj.to_ical())
-                except AttributeError:
-                    pass
-
-                if isinstance(obj, datetime.datetime):
-                    return (obj.now().strftime('%Y-%m-%dT%H:%M:%S'))
-
-                if isinstance(obj, bytes):
-                    return (obj.decode("utf-8"))
-
-                return JSONEncoder.default(self,obj)    
-
-
-        cal = Calendar.from_ical(filedata)
-
-        events = list(cal.walk(name="VEVENT"))
+        headers = [th.get_text(strip=True) for th in table.find_all('th')]
+        scheduledata = []
         
+        for row in table.find_all('tr')[1:]:  # Skip header row
+            cells = row.find_all('td')
+            for i, cell in enumerate(cells):
+                if i < len(headers):  # Ensure we don't go out of bounds
+                    scheduledata.append({
+                        "stop": headers[i],
+                        "time": cell.get_text(strip=True)
+                    })
+        
+        scheduledata.sort(key=lambda x: x['time'])  # Sort by time        
 
-        out_filepath = _get_out_filepath(ics, OUTPUT_DIR)
+        out_filepath = _get_out_filepath(schedule, OUTPUT_DIR)
 
-        _log_activity(config["state"], config["site"], ics, out_filepath)
+        _log_activity(config["state"], config["site"], schedule, out_filepath)
 
-        _output_ndjson(events, out_filepath, dump_cls=ICalendarEncoder)
+        _output_ndjson(scheduledata, out_filepath)
 
 elif config["parser"] == "passthrough":
     """
