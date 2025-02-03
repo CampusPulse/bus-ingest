@@ -138,6 +138,35 @@ def _get_stop_id(name: str, mapping) -> str:
     else:
         return name
 
+def _count_prefix_matches(str1, str2) -> int:
+    # https://stackoverflow.com/a/23585615
+    return sum(a==b for a, b in zip(str1, str2))
+
+def _look_for(string:str, inlist:list) -> int:
+    try:
+        return inlist.index(string)
+    except ValueError:
+        # not found
+        return -1
+
+def _match_stop_name(input_name:str, all_names:list[str]) -> str:
+    name = str(input_name)
+    
+    found_idx = _look_for(name, all_names)
+
+    # if not found
+    if found_idx < 0:
+        # try a more computationally expensive route
+        matching_prefix_lengths = [_count_prefix_matches(name, a) for a in all_names]
+        max_matching_prefix_lengths_index = matching_prefix_lengths.index(max(matching_prefix_lengths))
+        max_matching_prefix_length = matching_prefix_lengths[max_matching_prefix_lengths_index]
+
+        if matching_prefix_lengths.count(max_matching_prefix_length) > 1:
+            raise ValueError(f"Multiple matches found in stop list ({all_names}) for stop \"{input_name}\"")
+        
+        return all_names[max_matching_prefix_lengths_index]
+
+    return name
 
 def _dedup_dicts(input_dicts, key) -> dict:
     """ deduplicate a dict using its value at the given key"""
