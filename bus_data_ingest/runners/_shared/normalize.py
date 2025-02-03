@@ -172,48 +172,34 @@ def _get_out_filepath(in_filepath: pathlib.Path, out_dir: pathlib.Path) -> pathl
     return out_dir.joinpath(f"{filename}.normalized.ndjson")
 
 
+
+def _normalize_route(site: dict) -> List[schema.Route]:
+    return schema.Route(
+        route_id = site["id"],
+        name = site["name"],
+        stops = _normalize_stop(site),
+        source_url = site["source_url"]
+    )
+
+
+
 def normalize(config: dict, site: dict, timestamp: str) -> str:
     group = config["state"] 
     source = config["site"]
-    ident = site["UID"]
+    ident = config["source_url"].split("/")[-1]
     return schema.BusSchedule(
         identifier = f"{group}_{source}_{ident}",#: str
-        title = site.get("SUMMARY"),#: Optional[str]
-        location = _parse_location(site),#: Optional[Location]
-        # date = ,#: Optional[StringDate]
-        # isAllDay = site.get("allDay"),#: Optional[bool]
-        start = _parse_time(site, "DTSTART", defaulttz=pytz.timezone('US/Eastern')),
-        end = _parse_time(site, "DTEND", defaulttz=pytz.timezone('US/Eastern'), nullable=True),
-        description = site.get("DESCRIPTION"),
-        host = site.get("CLUB_ACRONYM")[0] if  site.get("CLUB_ACRONYM") is not None else None, # this is not a standard part of ICS, its something added by the campusgroups parser
-        is_public = True,#this came from a public data feed so we assume its public
-        source = schema.EventSource(
-            source_id = site.get("UID"),
-            source_link = site.get("URL"),
-            # submitter: Optional[str]
-            processed_at =  timestamp
-        ),#: EventSource
+        source_url = config["source_url"],
+        # service_alerts = _normalize_service_alerts(site),
+        routes = _normalize_route(site),
     )
-    # normalized = schema.NormalizedLocation(
-    #     id=f"{config['site']}:{site['clinic_id']}",
-    #     name=site["name"],
-    #     address=_get_address(site),
-    #     availability=schema.Availability(appointments=True),
-    #     contact=_get_contact(config, site),
-    #     inventory=_get_inventory(site),
-    #     opening_dates=_get_opening_dates(site),
-    #     opening_hours=_get_opening_hours(site),
-    #     notes=_get_notes(site),
-    #     source=_get_source(config, site, timestamp),
-    # ).dict()
-    # return normalized
 
 
 parsed_at_timestamp = datetime.datetime.utcnow().isoformat()
 
 config = _get_config(YML_CONFIG)
 
-if config["parser"] == "ics":
+if config["parser"] == "table":
     for input_file in INPUT_DIR.glob("*.ndjson"):
         output_file = _get_out_filepath(input_file, OUTPUT_DIR)
         with input_file.open() as parsed_lines:
