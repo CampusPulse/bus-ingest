@@ -176,10 +176,11 @@ def _normalize_stops(stops: dict) -> List[schema.Stop]:
     return [schema.Stop(
         stop_id = site["stop_id"],
         name = site["name"],
-        arrival_times = [schema.ArrivalTime(time=t) for t in site["times"]]
+        times = _normalize_times(site["times"])
     ) for site in stops]
 
-
+def _normalize_times(times: list[dict]) -> List[schema.Stop]:
+    return [schema.Time(**t) for t in times ]
 
 
 def normalize(config: dict, stops: dict, timestamp: str) -> str:

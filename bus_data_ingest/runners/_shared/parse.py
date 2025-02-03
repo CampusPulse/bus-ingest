@@ -197,15 +197,43 @@ if config["parser"] == "table":
 
         # turn each key of scheduledata into a dict
         data = []
+        gs_cache = {}
         for name, times in scheduledata.items():
-            data.append({
-                "name": _process_stop_name(name),
-                "stop_id": _get_stop_id(name, stop_id_map),
-                "times": times
-            })
+            
 
-        # deduplicate by stop_id where the values contain lists
-        data = _dedup_dicts(data, "stop_id")
+            if not name.startswith("Gleason Circle"):
+                data.append({
+                    "name": name,
+                    "stop_id": _get_stop_id(name, stop_id_map),
+                    "times": [{ "arrival": time } for time in times]
+                })
+            else:
+                is_arrival = name.endswith("Arrival")
+
+                if gs_cache == {}:
+                    gs_cache.update({
+                        "name": "Gleason Circle",
+                        "stop_id": _get_stop_id(name, stop_id_map),
+                    })
+                if is_arrival:
+                    gs_cache.update({
+                        "arrival_time": times
+                    })
+                else:
+                    gs_cache.update({
+                        "departure_time": times
+                    })
+        
+        gs_cache.update({
+            "times": [{ "arrival": arr, "departure": dep } for arr, dep in zip(gs_cache["arrival_time"], gs_cache["departure_time"])]
+        })
+
+        del gs_cache["arrival_time"]
+        del gs_cache["departure_time"]
+
+        data.append(gs_cache)
+
+
 
         out_filepath = _get_out_filepath(schedule, OUTPUT_DIR)
 
