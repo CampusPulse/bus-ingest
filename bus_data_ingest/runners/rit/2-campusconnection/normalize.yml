@@ -1,0 +1,6 @@
+parser: table
+state: rit
+site: 2-campusconnection
+route_id: 2
+route_name: Campus Connection Shuttle
+source_url: https://www.rit.edu/parking/2-campus-connection-shuttle

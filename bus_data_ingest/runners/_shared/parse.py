@@ -199,7 +199,7 @@ if config["parser"] == "table":
         data = []
         for name, times in scheduledata.items():
             data.append({
-                "stop": _process_stop_name(name),
+                "name": _process_stop_name(name),
                 "stop_id": _get_stop_id(name, stop_id_map),
                 "times": times
             })

@@ -39,12 +39,12 @@ def _get_config(yml_config: pathlib.Path) -> dict:
     return config
 
 
-def _get_source(config: dict, site: dict, timestamp: str) -> schema.EventSource:
-    return schema.EventSource(
-        source_id=site["UID"],
-        processed_at=timestamp,
-        # data=site,
-    )
+# def _get_source(config: dict, site: dict, timestamp: str) -> schema.EventSource:
+#     return schema.EventSource(
+#         source_id=site["UID"],
+#         processed_at=timestamp,
+#         # data=site,
+#     )
 
 
 # def _get_inventory(site: dict) -> List[schema.Vaccine]:
@@ -172,27 +172,32 @@ def _get_out_filepath(in_filepath: pathlib.Path, out_dir: pathlib.Path) -> pathl
     return out_dir.joinpath(f"{filename}.normalized.ndjson")
 
 
-
-def _normalize_route(site: dict) -> List[schema.Route]:
-    return schema.Route(
-        route_id = site["id"],
+def _normalize_stops(stops: dict) -> List[schema.Stop]:
+    return [schema.Stop(
+        stop_id = site["stop_id"],
         name = site["name"],
-        stops = _normalize_stop(site),
-        source_url = site["source_url"]
-    )
+        arrival_times = [schema.ArrivalTime(time=t) for t in site["times"]]
+    ) for site in stops]
 
 
 
-def normalize(config: dict, site: dict, timestamp: str) -> str:
-    group = config["state"] 
-    source = config["site"]
-    ident = config["source_url"].split("/")[-1]
-    return schema.BusSchedule(
-        identifier = f"{group}_{source}_{ident}",#: str
-        source_url = config["source_url"],
-        # service_alerts = _normalize_service_alerts(site),
-        routes = _normalize_route(site),
-    )
+
+def normalize(config: dict, stops: dict, timestamp: str) -> str:
+    # group = config["state"] 
+    # source = config["site"]
+    # ident = config["source_url"].split("/")[-1]
+    # return schema.BusSchedule(
+    #     identifier = f"{group}_{source}_{ident}",#: str
+    #     source_url = config["source_url"],
+    #     # service_alerts = _normalize_service_alerts(site),
+    #     routes = 
+    return schema.Route(
+            route_id = config["route_id"],
+            name = config["route_name"],
+            stops = _normalize_stops(stops),
+            source_url = config["source_url"]
+        )#,
+    # )
 
 
 parsed_at_timestamp = datetime.datetime.utcnow().isoformat()
@@ -204,8 +209,8 @@ if config["parser"] == "table":
         output_file = _get_out_filepath(input_file, OUTPUT_DIR)
         with input_file.open() as parsed_lines:
             with output_file.open("w") as fout:
-                for line in parsed_lines:
-                    site = json.loads(line)
-                    normalized_site = normalize(config, site, parsed_at_timestamp)
-                    json.dump(normalized_site.dict(), fout, default=json_serial)
-                    fout.write("\n")
+                lines = [json.loads(line) for line in parsed_lines]
+                    # site = 
+                normalized_site = normalize(config, lines, parsed_at_timestamp)
+                json.dump(normalized_site.dict(), fout, default=json_serial)
+                fout.write("\n")
