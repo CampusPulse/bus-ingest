@@ -252,7 +252,7 @@ test = ["pytest"]
 type = "git"
 url = "https://github.com/CampusPulse/bus-data-schema"
 reference = "HEAD"
-resolved_reference = "e1ddeb8e7abbf26f31f446c95b349284ff256d18"
+resolved_reference = "faed24b6ec41b40acbf32d251f1677e31a00ccce"
 
 [[package]]
 name = "certifi"
