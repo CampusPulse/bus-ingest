@@ -12,6 +12,7 @@ import pathlib
 import re
 import sys
 from typing import Dict, List
+from datetime import datetime
 
 import yaml
 from bs4 import BeautifulSoup
@@ -152,7 +153,7 @@ if config["parser"] == "table":
                 if i < len(headers):  # Ensure we don't go out of bounds
                     scheduledata.append({
                         "stop": headers[i],
-                        "time": cell.get_text(strip=True)
+                        "time": datetime.strptime(cell.get_text(strip=True), "%I:%M %p").strftime("%H:%M")
                     })
         
         scheduledata.sort(key=lambda x: x['time'])  # Sort by time        
