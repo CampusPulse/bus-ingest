@@ -12,7 +12,7 @@ import pydantic
 from sentry_sdk import set_tag
 import campuspulse_event_ingest_schema as schema 
 
-from event_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.log import getLogger
 
 # from ..utils.validation import VACCINATE_THE_STATES_BOUNDARY
 from . import caching, enrichment, outputs, site

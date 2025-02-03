@@ -19,12 +19,12 @@ Check the wiki to learn more about the purpose of the parse stage and how to get
 
 1. Fetch data for this site before you start developing:
     ```sh
-    poetry run event-data-ingest fetch <state>/<site>
+    poetry run bus-data-ingest fetch <state>/<site>
     ```
 
 1. While working on your code, run it at any point:
     ```sh
-    poetry run event-data-ingest parse <state>/<site>
+    poetry run bus-data-ingest parse <state>/<site>
     ```
 
 ### Example

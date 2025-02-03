@@ -12,7 +12,7 @@ import click
 import dotenv
 import sentry_sdk
 
-from event_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.log import getLogger
 
 from . import vial
 from .stages import caching, common, ingest, load, site
@@ -254,7 +254,7 @@ def _import_limit_option() -> Callable:
 
 @click.group()
 def cli():
-    """Run event-data-ingest commands"""
+    """Run bus-data-ingest commands"""
     dotenv.load_dotenv()
 
     sentry_enabled = os.environ.get("SENTRY_ENABLE", False)

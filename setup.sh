@@ -44,7 +44,7 @@ setup_macos() {
     echo ""
     echo "Try this command next:"
     echo ""
-    echo "poetry run event-data-ingest --help"
+    echo "poetry run bus-data-ingest --help"
 }
 
 setup_linux() {
@@ -84,7 +84,7 @@ setup_linux() {
     echo ""
     echo "Try this command next:"
     echo ""
-    echo "poetry run event-data-ingest --help"
+    echo "poetry run bus-data-ingest --help"
 }
 
 setup_unsupported() {

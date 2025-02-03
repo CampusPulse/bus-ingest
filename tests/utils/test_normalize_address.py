@@ -1,6 +1,6 @@
 from campuspulse_event_ingest_schema import location as schema
 
-from event_data_ingest.utils.normalize import normalize_address, parse_address
+from bus_data_ingest.utils.normalize import normalize_address, parse_address
 
 
 def test_parse_address():

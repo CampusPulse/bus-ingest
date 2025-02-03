@@ -1,6 +1,6 @@
 from typing import Dict, Iterator
 
-from event_data_ingest.utils import misc
+from bus_data_ingest.utils import misc
 
 
 def test_batch():

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "event-data-ingest"
+name = "bus-data-ingest"
 version = "0.1.0"
 description = "Pipeline for ingesting nationwide feed of vaccine facilities"
 authors = ["Bryan Culbertson <bryan.culbertson@gmail.com>"]
@@ -52,7 +52,7 @@ lint = ["flake8", "black", "mypy", "isort"]
 test = ["pytest", "pytest-runner"]
 
 [tool.poetry.scripts]
-event-data-ingest = "event_data_ingest.cli:cli"
+bus-data-ingest = "bus_data_ingest.cli:cli"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

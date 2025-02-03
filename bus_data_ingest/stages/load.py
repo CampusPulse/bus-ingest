@@ -12,7 +12,7 @@ import us
 from sentry_sdk import set_tag
 # from campuspulse_event_ingest_schema import load, location
 
-from event_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.log import getLogger
 
 from .. import vial
 from ..utils import misc, normalize

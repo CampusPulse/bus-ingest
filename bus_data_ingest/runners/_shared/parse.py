@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 from icalendar import Calendar, Event
 
 
-from event_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.log import getLogger
 
 logger = getLogger(__file__)
 

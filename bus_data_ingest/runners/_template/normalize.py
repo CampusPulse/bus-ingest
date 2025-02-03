@@ -18,8 +18,8 @@ import usaddress
 from opening_hours import OpeningHours
 from campuspulse_event_ingest_schema import location as schema
 
-from event_data_ingest.utils.log import getLogger
-from event_data_ingest.utils.normalize import (
+from bus_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.normalize import (
     normalize_address,
     normalize_phone,
     normalize_zip,

@@ -1,4 +1,4 @@
-# event-data-ingest
+# bus-data-ingest
 
 <!-- [![see results in vaccine-feed-ingest-results](https://img.shields.io/static/v1?label=see%20results&message=vaccine-feed-ingest-results&color=brightgreen)](https://github.com/CAVaccineInventory/vaccine-feed-ingest-results) -->
 
@@ -15,7 +15,7 @@ Pipeline for ingesting data about events on campus.
 
 ### Run the tool
 
-[See the wiki](https://github.com/CampusPulse/data-ingest/wiki/Run-event-data-ingest) for instructions on how to run `event-data-ingest`.
+[See the wiki](https://github.com/CampusPulse/data-ingest/wiki/Run-bus-data-ingest) for instructions on how to run `bus-data-ingest`.
 
 
 ## Production Details
@@ -48,7 +48,7 @@ To load the generated output to a frontend API, the following bash one-liner can
 1. Run ingestion with an GCS `--output-dir`
 
   ```sh
-  poetry run event-data-ingest all-stages --output-dir=gs://vaccine-feeds-dev/locations/
+  poetry run bus-data-ingest all-stages --output-dir=gs://vaccine-feeds-dev/locations/
   ```
 
 ### Load Source Locations
@@ -66,5 +66,5 @@ To load the generated output to a frontend API, the following bash one-liner can
 - Load SF.GOV source feed to VIAL
 
   ```sh
-  poetry run event-data-ingest load-to-vial ca/sf_gov
+  poetry run bus-data-ingest load-to-vial ca/sf_gov
   ``` -->

@@ -1,6 +1,6 @@
 from campuspulse_event_ingest_schema.location import VaccineProvider
 
-from event_data_ingest.utils.normalize import provider_id_from_name
+from bus_data_ingest.utils.normalize import provider_id_from_name
 
 
 def test_provider_id_from_name():

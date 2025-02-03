@@ -21,5 +21,5 @@ Check the wiki to learn more about the purpose of the fetch stage and how to get
 
 1. While working on your code, run it at any point:
     ```sh
-    poetry run event-data-ingest fetch <state>/<site>
+    poetry run bus-data-ingest fetch <state>/<site>
     ```

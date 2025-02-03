@@ -8,7 +8,7 @@ import urllib.parse
 import requests
 import yaml
 
-from event_data_ingest.utils.log import getLogger
+from bus_data_ingest.utils.log import getLogger
 
 # import arcgis ingestor
 shared_dir = pathlib.Path(__file__).parent

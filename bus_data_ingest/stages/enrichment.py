@@ -9,7 +9,7 @@
 # import pydantic
 # from campuspulse_event_ingest_schema import location
 
-# from event_data_ingest.utils.log import getLogger
+# from bus_data_ingest.utils.log import getLogger
 
 # from ..apis.geocodio import GeocodioAPI
 # from ..apis.placekey import PlacekeyAPI

@@ -13,7 +13,7 @@
 # import urllib3
 # from campuspulse_event_ingest_schema import load
 
-# from event_data_ingest.utils.log import getLogger
+# from bus_data_ingest.utils.log import getLogger
 
 # from .utils import misc
 

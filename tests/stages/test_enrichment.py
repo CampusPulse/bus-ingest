@@ -1,6 +1,6 @@
 from campuspulse_event_ingest_schema import location
 
-from event_data_ingest.stages import enrichment
+from bus_data_ingest.stages import enrichment
 
 
 def test_add_provider_from_name_minimal(minimal_location):

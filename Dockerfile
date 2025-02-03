@@ -1,13 +1,13 @@
 FROM python:3.9.2-buster
-LABEL name=event-data-ingest
+LABEL name=bus-data-ingest
 
-RUN useradd -m scraper && mkdir event-data-ingest && chown scraper:scraper event-data-ingest
+RUN useradd -m scraper && mkdir bus-data-ingest && chown scraper:scraper bus-data-ingest
 
-COPY ./ /event-data-ingest/
+COPY ./ /bus-data-ingest/
 
 USER scraper
 
-WORKDIR /event-data-ingest
+WORKDIR /bus-data-ingest
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -

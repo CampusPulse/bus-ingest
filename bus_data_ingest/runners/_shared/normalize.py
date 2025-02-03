@@ -15,7 +15,7 @@ from typing import List
 import yaml
 import campuspulse_event_ingest_schema as schema
 from dateutil import parser as dateparser
-from event_data_ingest.utils.jsonserial import json_serial
+from bus_data_ingest.utils.jsonserial import json_serial
 
 # Configure logger
 logging.basicConfig(

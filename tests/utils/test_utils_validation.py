@@ -1,6 +1,6 @@
 from campuspulse_event_ingest_schema import location
 
-from event_data_ingest.utils import validation
+from bus_data_ingest.utils import validation
 
 
 def test_bounding_box_contains():
