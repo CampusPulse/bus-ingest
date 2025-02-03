@@ -10,7 +10,7 @@ from typing import Collection, Optional
 import orjson
 import pydantic
 from sentry_sdk import set_tag
-import campuspulse_event_ingest_schema as schema 
+import campuspulse_bus_ingest_schema as schema 
 
 from bus_data_ingest.utils.log import getLogger
 
@@ -464,7 +464,7 @@ def _validate_normalized(output_dir: pathlib.Path) -> bool:
                     return False
 
                 try:
-                    normalized_data = schema.NormalizedEvent.parse_obj(
+                    normalized_data = schema.BusSchedule.parse_obj(
                         content_dict
                     )
                 except pydantic.ValidationError as e:

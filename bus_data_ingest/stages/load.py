@@ -10,7 +10,7 @@ import shapely.geometry
 import urllib3
 import us
 from sentry_sdk import set_tag
-# from campuspulse_event_ingest_schema import load, location
+# from campuspulse_bus_ingest_schema import load, location
 
 from bus_data_ingest.utils.log import getLogger
 

@@ -3,7 +3,7 @@
 from typing import List
 
 from pydantic import BaseModel
-# from campuspulse_event_ingest_schema import location
+# from campuspulse_bus_ingest_schema import location
 
 
 class MinMax(BaseModel):

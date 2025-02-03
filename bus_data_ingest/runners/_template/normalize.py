@@ -16,7 +16,7 @@ import pydantic
 import us
 import usaddress
 from opening_hours import OpeningHours
-from campuspulse_event_ingest_schema import location as schema
+from campuspulse_bus_ingest_schema import location as schema
 
 from bus_data_ingest.utils.log import getLogger
 from bus_data_ingest.utils.normalize import (

@@ -1,4 +1,4 @@
-from campuspulse_event_ingest_schema import location as schema
+from campuspulse_bus_ingest_schema import location as schema
 
 from bus_data_ingest.utils.normalize import normalize_phone
 

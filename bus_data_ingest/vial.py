@@ -11,7 +11,7 @@
 # import rtree
 # import shapely.geometry
 # import urllib3
-# from campuspulse_event_ingest_schema import load
+# from campuspulse_bus_ingest_schema import load
 
 # from bus_data_ingest.utils.log import getLogger
 

@@ -7,7 +7,7 @@
 # import orjson
 # import phonenumbers
 # import pydantic
-# from campuspulse_event_ingest_schema import location
+# from campuspulse_bus_ingest_schema import location
 
 # from bus_data_ingest.utils.log import getLogger
 

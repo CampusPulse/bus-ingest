@@ -1,5 +1,5 @@
 import pytest
-from campuspulse_event_ingest_schema import location
+from campuspulse_bus_ingest_schema import location
 
 
 @pytest.fixture

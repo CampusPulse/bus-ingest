@@ -5,7 +5,7 @@ from typing import Dict, Optional, Set
 import jellyfish
 import phonenumbers
 import us
-# from campuspulse_event_ingest_schema import location
+# from campuspulse_bus_ingest_schema import location
 
 from ..stages import enrichment
 from .log import getLogger

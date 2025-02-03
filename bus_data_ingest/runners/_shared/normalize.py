@@ -13,7 +13,7 @@ import urllib.parse
 from typing import List
 
 import yaml
-import campuspulse_event_ingest_schema as schema
+import campuspulse_bus_ingest_schema as schema
 from dateutil import parser as dateparser
 from bus_data_ingest.utils.jsonserial import json_serial
 
@@ -176,7 +176,7 @@ def normalize(config: dict, site: dict, timestamp: str) -> str:
     group = config["state"] 
     source = config["site"]
     ident = site["UID"]
-    return schema.NormalizedEvent(
+    return schema.BusSchedule(
         identifier = f"{group}_{source}_{ident}",#: str
         title = site.get("SUMMARY"),#: Optional[str]
         location = _parse_location(site),#: Optional[Location]
