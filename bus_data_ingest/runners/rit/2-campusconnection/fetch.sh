@@ -21,3 +21,5 @@ echo "Fetching into ${output_dir}"
 ###
 
 (cd "$output_dir" && curl --silent "https://www.rit.edu/parking/2-campus-connection-shuttle" -o 'schedule.html')
+
+(cd "$output_dir" && curl --silent "https://report.campuspulse.app/busstops.json" -o 'busstops.json')

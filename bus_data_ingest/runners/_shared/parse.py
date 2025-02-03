@@ -13,6 +13,7 @@ import re
 import sys
 from typing import Dict, List
 from datetime import datetime
+from pathlib import Path
 
 import yaml
 from bs4 import BeautifulSoup
@@ -125,6 +126,16 @@ def _output_ndjson(json_list: List[dict], out_filepath: pathlib.Path, dump_cls=N
 #     return content.strip() if isinstance(content, str) else content.get_text().strip()
 
 
+def _get_stop_id(name: str, mapping) -> str:
+    name_first_two = " ".join(name.split(" ")[0:2])
+    if mapping.get(name):
+        return mapping[name]
+    elif name_first_two in mapping:# gleason circle hotfix
+        return mapping[name_first_two]
+    else:
+        return name
+
+
 config = _get_config(YML_CONFIG)
 # EXTRACT_CLINIC_ID = re.compile(r".*clinic(\d*)\.png")
 
@@ -132,6 +143,15 @@ if config["parser"] == "table":
     """
     parse schedule table into json data
     """
+
+    busstops = INPUT_DIR.joinpath("busstops.json")
+    # parse busstops.json with Pathli
+    busstops = json.loads(busstops.read_text())
+
+    stops = busstops["stops"]
+    # create mapping from stop name to stop id
+    stop_id_map = {stop["name"]: stop["id"] for stop in stops}
+
 
     for schedule in INPUT_DIR.glob("**/*.html"):
         if not schedule.is_file():
@@ -153,6 +173,7 @@ if config["parser"] == "table":
                 if i < len(headers):  # Ensure we don't go out of bounds
                     scheduledata.append({
                         "stop": headers[i],
+                        "stop_id": _get_stop_id(headers[i], stop_id_map),
                         "time": datetime.strptime(cell.get_text(strip=True), "%I:%M %p").strftime("%H:%M")
                     })
         
