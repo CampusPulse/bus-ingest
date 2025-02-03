@@ -99,8 +99,8 @@ def _log_activity(
 ) -> None:
     logger.info(
         "(%s/%s) parsing %s => %s",
-        state.upper(),
-        site.lower(),
+        str(state).upper(),
+        str(site).lower(),
         in_filepath,
         out_filepath,
     )
