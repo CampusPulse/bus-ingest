@@ -1,0 +1,6 @@
+parser: table
+state: rit
+site: 3
+route_id: 3
+route_name: RIT Inn
+source_url: https://www.rit.edu/parking/3-rit-inn

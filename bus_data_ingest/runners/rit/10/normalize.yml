@@ -1,0 +1,6 @@
+parser: table
+state: rit
+site: 10
+route_id: 10
+route_name: Weekend Retail Shuttle
+source_url: https://www.rit.edu/parking/10-weekend-retail-shuttle

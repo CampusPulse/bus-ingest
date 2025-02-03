@@ -1,0 +1,6 @@
+parser: table
+state: rit
+site: 8
+route_id: 8
+route_name: The Province
+source_url: https://www.rit.edu/parking/8-province

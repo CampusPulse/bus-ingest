@@ -1,0 +1,6 @@
+parser: table
+state: rit
+site: 1
+route_id: 1
+route_name: Off Campus Express
+source_url: https://www.rit.edu/parking/1-campus-express
