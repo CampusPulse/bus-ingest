@@ -41,8 +41,6 @@ diskcache = "^5.2.1"
 placekey = "^0.0.11"
 usaddress = "^0.5.10"
 sentry-sdk = "^1.2.0"
-icalendar = "^5.0.11"
-campuspulse-event-ingest-schema = {git = "https://github.com/CampusPulse/event-data-schema", rev = "main"}
 
 [tool.poetry.dev-dependencies]
 tox = "^3.23.1"

@@ -15,8 +15,6 @@ from typing import Dict, List
 
 import yaml
 from bs4 import BeautifulSoup
-from icalendar import Calendar, Event
-
 
 from bus_data_ingest.utils.log import getLogger
 
