@@ -174,7 +174,7 @@ def _get_out_filepath(in_filepath: pathlib.Path, out_dir: pathlib.Path) -> pathl
 
 def _normalize_stops(stops: dict) -> List[schema.Stop]:
     return [schema.Stop(
-        stop_id = site["stop_id"],
+        stop_id = int(site["stop_id"]),
         name = site["name"],
         times = _normalize_times(site["times"])
     ) for site in stops]
