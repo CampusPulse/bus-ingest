@@ -168,6 +168,14 @@ def _match_stop_name(input_name:str, all_names:list[str]) -> str:
 
     return name
 
+
+def _get_stop_info(name:str, mapping) -> str:
+    name = _match_stop_name(name, list(mapping.keys()))
+    stop_id = mapping[name]
+    return name, stop_id
+
+
+
 def _dedup_dicts(input_dicts, key) -> dict:
     """ deduplicate a dict using its value at the given key"""
     output_dict = []
@@ -231,9 +239,10 @@ if config["parser"] == "table":
             
 
             if not name.startswith("Gleason Circle"):
+                stopname, stopid = _get_stop_info(name, stop_id_map)
                 data.append({
-                    "name": name,
-                    "stop_id": _get_stop_id(name, stop_id_map),
+                    "name": stopname,
+                    "stop_id": stopid,
                     "times": [{ "arrival": time } for time in times]
                 })
             else:
