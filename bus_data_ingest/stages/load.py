@@ -6,7 +6,7 @@ from urllib.error import HTTPError
 import jellyfish
 import orjson
 import pydantic
-import shapely.geometry
+# import shapely.geometry
 import urllib3
 import us
 from sentry_sdk import set_tag
